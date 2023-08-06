@@ -8,7 +8,7 @@ import java.util.Calendar;
 
 
 
-public class Main2 {
+public class Main {
 
     public static Calendar createDate(){
         Scanner scanner = new Scanner(System.in);
