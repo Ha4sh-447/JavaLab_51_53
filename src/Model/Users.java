@@ -7,7 +7,7 @@ import java.util.Date;
  * Identification comments:
  *   Name: Harsh Saindane
  *   Experiment No: 2
- *   Experiment Title:
+ *   Experiment Title: Implementing Many-to-Many relationships using Arrays
  *   Experiment Date: 01-08-2023
  *   @version 1.0
  *
