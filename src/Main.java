@@ -171,6 +171,9 @@ public class Main {
                     break;
                 case 5:
                     if (currentSubscriberCount < subscriber_arr.length) {
+                        System.out.println("Enter ID of Subscriber: ");
+                        int subscriber_id = scanner.nextInt();
+
                         System.out.print("Enter Id of the User: ");
                         int user_id = scanner.nextInt();
 
@@ -199,6 +202,7 @@ public class Main {
                         subscriber_arr[currentSubscriberCount-1].input(user_arr[user_id - 1], subs_arr[subscription_id - 1], start_date);
                         subscriber_arr[currentSubscriberCount-1].setStartDate(start_date);
                         subscriber_arr[currentSubscriberCount-1].setIsActive(active);
+                        subscriber_arr[currentSubscriberCount-1].setUserSubsId(subscriber_id);
 
                         System.out.println("Subscriber created and added to the array.");
                     } else {
@@ -206,8 +210,7 @@ public class Main {
                     }
                     break;
                 case 6:
-                    for(int i = 0; i <= currentSubscriberCount; i++) {
-                        System.out.println(i + ")");
+                    for(int i = 0; i < currentSubscriberCount; i++) {
                         subscriber_arr[i].display();
                         do {
                             System.out.println("------------------Subscriber Menu------------------");
@@ -230,6 +233,8 @@ public class Main {
                                     System.out.println("Subscription changed.");
                                     break;
                                 }
+                                case 3:
+                                    break;
                                 default:
                                     System.out.println("Invalid choice. Try again.");
                                     break;
@@ -237,6 +242,8 @@ public class Main {
                         }while(choice1 != 3);
 
                     }
+                    break;
+                case 7:
                     break;
                 default:
                     System.out.println("Invalid choice. Try again.");

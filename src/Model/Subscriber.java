@@ -43,8 +43,8 @@ public class Subscriber {
 
 
 //    Setters
-    public void setUserSubsId(){
-        this.userSubsId = (int)Math.random()*50 + 1;
+    public void setUserSubsId(int userSubsId){
+        this.userSubsId = userSubsId;
     }
     public void setStartDate(Calendar start_date){
         this.startDate = start_date;
