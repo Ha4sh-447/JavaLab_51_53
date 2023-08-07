@@ -6,14 +6,14 @@ import java.util.Scanner;
 /**
  * Identification comments:
  *   Name: Harsh Saindane
- *   Experiment No: 1
- *   Experiment Title: Implementing Many-to-Many Relationships using Classes and Objects
- *   Experiment Date: 25-07-2023
+ *   Experiment No: 2
+ *   Experiment Title:
+ *   Experiment Date: 01-08-2023
  *   @version 1.0
  *
  *
  * Beginning comments:
- * Filename: UsersSubscription.java
+ * Filename: Subscriber.java
  * @author:  Harsh Saindane
  *
  * Attribute comments:
@@ -23,13 +23,6 @@ import java.util.Scanner;
  * startDate : Date of start of subscription
  * endDate : Date of end of subscription
  * isActive : Stores the active status of the user
- *
- *
- * Changes Made on 2/8/2023
- * added calculateEndDate() method to calculate end date
- * modified data type of all the dates to Calendar
- * updated renew() and changeSubs() method
- * updated display() method
  */
 public class Subscriber {
 

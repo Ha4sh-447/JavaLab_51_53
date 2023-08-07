@@ -10,6 +10,7 @@ import java.util.Calendar;
 
 public class Main {
 
+//    method to create date from user input
     public static Calendar createDate(){
         Scanner scanner = new Scanner(System.in);
 
