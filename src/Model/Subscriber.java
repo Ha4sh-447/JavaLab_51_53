@@ -73,7 +73,7 @@ public class Subscriber {
 
 //    Method to renew subscription
     public void renew(){
-        if(!getIsActive() && Objuser.getAccStatus().equals("inactive")){
+        if(!getIsActive() || Objuser.getAccStatus().equals("inactive")){
             System.out.println("Enter duration for Subscription (3/6/12 Months): ");
             Scanner sc = new Scanner(System.in);
             int months = sc.nextInt();
