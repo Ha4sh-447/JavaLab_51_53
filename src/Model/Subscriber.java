@@ -68,7 +68,7 @@ public class Subscriber {
 //   Display information
     public void display(){
         System.out.println("ID: "+ getUserSubsId() + "\nUser: " + this.Objuser.getUserName() + "\nSubscription Name: " + this.Objsubs.getSubsName()
-        + "\nCurrent status: " + (getIsActive() ? "Active": "Inactive") + "\nSubscription starts from: " + getStartDate().getTime() +"\nSubscription Ends on: " + calculateEndDate().getTime() );
+        + "\nCurrent status: " + (getIsActive() ? "Active": "Inactive") + "\nSubscription starts from: " + formatDate(getStartDate()) +"\nSubscription Ends on: " + formatDate(calculateEndDate()) );
     }
 
 //    Method to renew subscription
@@ -80,12 +80,22 @@ public class Subscriber {
             Objsubs.setSubsDuration(months);
             setIsActive(true);
             calculateEndDate();
-            System.out.println("Subscription renewed.");
+            System.out.println("Subscription renewed for ."+ months + " months.");
         }else{
             System.out.println(Objsubs.getSubsName() + " is already active. Can't renew right now");
         }
     }
 
+    public void renew(int newSubsDur){
+        if(!getIsActive() || Objuser.getAccStatus().equals("inactive")){
+            Objsubs.setSubsDuration(3);
+            setIsActive(true);
+            calculateEndDate();
+            System.out.println("Subscription renewed for 3 months.");
+        }else{
+            System.out.println(Objsubs.getSubsName() + " is already active. Can't renew right now");
+        }
+    }
 //    Change user subscription
     public void changeSubs(String newSub){
         Objsubs.setSubsName(newSub);
@@ -110,4 +120,13 @@ public class Subscriber {
             return getStartDate();
         }
     }
+
+//    formats Date to display only date and not time
+//    Wed Nov 17 12:01:52 IST 2004 --> 17 Nov 2004
+    public static String formatDate(Calendar obj){
+        String[] st = obj.getTime().toString().split(" ");
+        String newdate = st[2].concat(" ").concat(st[1]).concat(" ").concat(st[5]);
+        return newdate;
+    }
+
 }

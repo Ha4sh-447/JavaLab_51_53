@@ -33,12 +33,38 @@ public class Users {
     /* User attributes */
     private int userId;
     private String userName;
-    private Date dob;
+    private Calendar dob;
     private long mobile_no;
     private String email;
     private String password;
-    private Date regDate;
+    private Calendar regDate;
     private String accStatus;
+
+    private String profilePic;
+
+//    Constructors
+    public Users(int userId, String userName, Calendar dob, long mobile_no, String email, String password, Calendar regDate, String accStatus, String profilePic){
+        setUserId(userId);
+        setUserName(userName);
+        setDOB(dob);
+        setMobileNo(mobile_no);
+        setEmail(email);
+        setPassword(password);
+        setRegDate(regDate);
+        setAccStatus(accStatus);
+        setProfilePic(profilePic);
+    }
+    public Users(int userId, String userName, Calendar dob, long mobile_no, String email, String password, Calendar regDate, String accStatus){
+        setUserId(userId);
+        setUserName(userName);
+        setDOB(dob);
+        setMobileNo(mobile_no);
+        setEmail(email);
+        setPassword(password);
+        setRegDate(regDate);
+        setAccStatus(accStatus);
+        setProfilePic("Smiley");
+    }
 
 
 //    Setters
@@ -50,7 +76,7 @@ public class Users {
     {
         this.userName = userName;
     }
-    public void setDOB(Date dob)
+    public void setDOB(Calendar dob)
     {
         this.dob = dob;
     }
@@ -66,7 +92,7 @@ public class Users {
     {
         this.password = password;
     }
-    public void setRegDate(Date regDate)
+    public void setRegDate(Calendar regDate)
     {
         this.regDate = regDate;
     }
@@ -74,6 +100,7 @@ public class Users {
     {
         this.accStatus = accStatus;
     }
+    public  void setProfilePic(String profilePic){this.profilePic = profilePic;}
 
 
     // Getters
@@ -86,7 +113,7 @@ public class Users {
         return this.userName;
     }
 
-    public Date getDOB()
+    public Calendar getDOB()
     {
         return this.dob;
     }
@@ -103,7 +130,7 @@ public class Users {
     {
         return this.password;
     }
-    public Date getRegDate()
+    public Calendar getRegDate()
     {
         return this.regDate;
     }
@@ -112,6 +139,7 @@ public class Users {
     {
         return this.accStatus;
     }
+    public String getProfilePic(){return this.profilePic;}
 
 
 }

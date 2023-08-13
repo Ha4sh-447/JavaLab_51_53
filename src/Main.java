@@ -5,7 +5,7 @@ import Model.Subscriber;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.Calendar;
-
+import java.util.spi.CalendarNameProvider;
 
 
 public class Main {
@@ -69,34 +69,43 @@ public class Main {
                         System.out.print("Enter Mobile No: ");
                         long mobile_no = scanner.nextLong();
 
-                        System.out.print("Enter Email Id: ");
-                        String email = scanner.next();
+                        boolean chEmail = true;
+                        String email = "";
+                        while(chEmail){
+                            System.out.print("Enter Email Id: ");
+                            email = scanner.next();
+                            if(!email.contains("@")){
+                                System.out.println("Enter valid email address.");
+                            }else break;
+                        }
 
                         System.out.print("Enter Password: ");
                         String password = scanner.next();
                         scanner.nextLine();
 
                         System.out.print("Enter Date of birth: ");
-                        Date dob = createDate().getTime();
+                        Calendar dob = createDate();
 
                         System.out.println("Enter registration date: ");
-                        Date regDate = createDate().getTime();
+                        Calendar regDate = createDate();
 
                         System.out.println("Enter Account status of user(active/inactive): ");
                         String accStatus = scanner.nextLine();
 
-                        // Create the object dynamically
-                        user_arr[currentUserCount] = new Users();
-                        currentUserCount++;
+                        System.out.println("Do you want to set profile picture? (Y/N): ");
+                        String ch = scanner.nextLine();
 
-                        user_arr[currentUserCount-1].setUserId(id);
-                        user_arr[currentUserCount-1].setUserName(name);
-                        user_arr[currentUserCount-1].setDOB(dob);
-                        user_arr[currentUserCount-1].setMobileNo(mobile_no);
-                        user_arr[currentUserCount-1].setEmail(email);
-                        user_arr[currentUserCount-1].setPassword(password);
-                        user_arr[currentUserCount-1].setAccStatus(accStatus);
-                        user_arr[currentUserCount-1].setRegDate(regDate);
+                        if(ch.equals("Y")){
+                            System.out.println("Enter profile picture: ");
+                            String userPic = scanner.nextLine();
+//                        int userId, String userName, Date dob, long mobile_no, String email, String password, Date regDate, String accStatus, String profilePic
+                            user_arr[currentUserCount] = new Users(id, name, dob, mobile_no, email, password, regDate, accStatus, userPic);
+                            currentUserCount++;
+                        } else if (ch.equals("N")) {
+                            user_arr[currentUserCount] = new Users(id, name, dob, mobile_no, email, password, regDate, accStatus);
+                            currentUserCount++;
+                        }
+                        // Create the object dynamically
 
                         System.out.println("User created and added to the array.");
                     } else {
@@ -107,13 +116,15 @@ public class Main {
                     System.out.print("Enter Id of the User to Display: ");
                     int userID = scanner.nextInt();
                     System.out.println("--------------------------------------------------------");
+                    System.out.println("User Profile Pic: " + user_arr[userID - 1].getProfilePic());
                     System.out.println("UserId : "+ user_arr[userID - 1].getUserId());
-                    System.out.println("Name : "+ user_arr[userID - 1].getUserName());
-                    System.out.println("DOB : "+ user_arr[userID - 1].getDOB());
+                    System.out.println("Name : "+ user_arr[userID - 1].getUserName().trim());
+                    System.out.println("DOB : "+ Subscriber.formatDate(user_arr[userID - 1].getDOB()));
                     System.out.println("MobileNo : "+ user_arr[userID - 1].getMobileNo());
                     System.out.println("Email : "+ user_arr[userID - 1].getEmail());
                     System.out.println("Account status : "+ user_arr[userID - 1].getAccStatus());
-                    System.out.println("Registration Date : "+ user_arr[userID - 1].getRegDate());
+                    System.out.println("Registration Date : "+ Subscriber.formatDate(user_arr[userID - 1].getRegDate()));
+
                     System.out.println("--------------------------------------------------------");
                     break;
                 case 3:
@@ -131,27 +142,20 @@ public class Main {
                         int subsDuration = scanner.nextInt();
                         scanner.nextLine();
 
-                        System.out.println("Enter Description of Subscription: ");
-                        String subsDesc = scanner.nextLine();
 
                         System.out.println("Enter Active status (true or false): ");
                         boolean subsActive = scanner.nextBoolean();
                         scanner.nextLine();
 
                         System.out.println("Enter start date of Subscription (yyyy-mm-dd): ");
-                        Date validDate = createDate().getTime();
+                        Calendar validDate = createDate();
 
-                        // Create the object dynamically
-                        subs_arr[currentSubsCount] = new Subscriptions();
+                        System.out.println("Enter Description of Subscription: ");
+                        String subsDesc = scanner.nextLine();
+                        subs_arr[currentSubsCount] = new Subscriptions(subsID, subsName, subsPrice, subsDuration, validDate, subsActive, subsDesc);
                         currentSubsCount++;
 
-                        subs_arr[currentSubsCount-1].setSubsID(subsID);
-                        subs_arr[currentSubsCount-1].setSubsName(subsName);
-                        subs_arr[currentSubsCount-1].setSubsPrice(subsPrice);
-                        subs_arr[currentSubsCount-1].setSubsDuration(subsDuration);
-                        subs_arr[currentSubsCount-1].setSubsDesc(subsDesc);
-                        subs_arr[currentSubsCount-1].setIsActive(subsActive);
-                        subs_arr[currentSubsCount-1].setValidFrom(validDate);
+
 
                         System.out.println("Subscription created and added to the array.");
                     } else {
@@ -161,6 +165,7 @@ public class Main {
                 case 4:
                     System.out.print("Enter Id of the Subscription to Display: ");
                     int subsIDDisplay = scanner.nextInt();
+                    scanner.nextLine();
 
                     System.out.println("--------------------------------------------------------");
                     System.out.println("Subscription ID : "+ subs_arr[subsIDDisplay - 1].getSubsID());
@@ -223,7 +228,17 @@ public class Main {
                             switch(choice1){
                                 case 1: {
                                     // Handle subscription renewal here
-                                    subscriber_arr[i].renew();
+                                    System.out.println("Do you want to continue with existing subscription details?(Y/N): ");
+                                    String ch = scanner.nextLine();
+
+                                    if(ch.equals("Y")){
+                                        subscriber_arr[i].renew();
+                                    }else if(ch.equals("N")){
+                                        System.out.println("Enter Duration: ");
+                                        int dur = scanner.nextInt();
+                                        scanner.nextLine();
+                                        subscriber_arr[i].renew(dur);
+                                    }
                                     break;
                                 }
                                 case 2: {

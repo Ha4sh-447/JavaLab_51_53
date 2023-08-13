@@ -1,4 +1,5 @@
 package Model;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -33,8 +34,20 @@ public class  Subscriptions {
     private String subsDesc;
     private int subsPrice;
     private int subsDurationMonths;
-    private Date validFrom;
+    private Calendar validFrom;
     private boolean isActive;
+
+//    Constructors
+    public  Subscriptions(int subsID, String subsName, int subsPrice, int subsDurationMonths, Calendar validFrom, boolean isActive, String subsDesc){
+        setValidFrom(validFrom);
+        setSubsID(subsID);
+        setSubsDuration(subsDurationMonths);
+        setSubsPrice(subsPrice);
+        setIsActive(isActive);
+        setSubsName(subsName);
+        setSubsDesc(subsDesc);
+    }
+
 
 //    Setters
     public void setSubsID(int subsID)
@@ -60,7 +73,7 @@ public class  Subscriptions {
         this.subsDurationMonths = subsDurationMonth;
     }
 
-    public void setValidFrom(Date validFrom){
+    public void setValidFrom(Calendar validFrom){
         this.validFrom = validFrom;
     }
     public void setIsActive(boolean isActive){this.isActive = isActive;}
@@ -91,7 +104,7 @@ public class  Subscriptions {
         return this.subsDurationMonths;
     }
 
-    public Date getValidFrom(){return this.validFrom;}
+    public Calendar getValidFrom(){return this.validFrom;}
     public boolean getIsActive(){return this.isActive;}
 
 }
