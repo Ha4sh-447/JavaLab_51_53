@@ -1,7 +1,6 @@
 package Model;
 
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Identification comments:
@@ -28,7 +27,7 @@ import java.util.Date;
  * accStatus : Status of user's account
  */
 
-public class Users {
+public class Users implements DetailsManagement {
 
     /* User attributes */
     private int userId;
@@ -141,5 +140,25 @@ public class Users {
     }
     public String getProfilePic(){return this.profilePic;}
 
+    public void displayInfo(){
+        System.out.println("User Profile Picture: "+getProfilePic());
+        System.out.println("User ID: " + getUserId());
+        System.out.println("Username: "+getUserName());
+        System.out.println("Date of Birth: "+ formatDate(getDOB()));
+        System.out.println("Mobile number: "+getMobileNo());
+        System.out.println("Email address: "+ getEmail());
+        System.out.println("Account status: "+ getAccStatus());
+        System.out.println("Registration Date: "+ formatDate(getRegDate()));
+    }
 
+    public void changePassword(String newPass){
+            setPassword(newPass);
+            System.out.println("Password changed successfully!");
+    }
+
+    public String formatDate(Calendar obj){
+        String[] st = obj.getTime().toString().split(" ");
+        String newdate = st[2].concat(" ").concat(st[1]).concat(" ").concat(st[5]);
+        return newdate;
+    }
 }

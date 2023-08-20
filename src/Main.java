@@ -1,11 +1,8 @@
+import Model.Subscriber;
 import Model.Subscriptions;
 import Model.Users;
-import Model.Subscriber;
-
-import java.util.Date;
-import java.util.Scanner;
 import java.util.Calendar;
-import java.util.spi.CalendarNameProvider;
+import java.util.Scanner;
 
 
 public class Main {
@@ -116,15 +113,7 @@ public class Main {
                     System.out.print("Enter Id of the User to Display: ");
                     int userID = scanner.nextInt();
                     System.out.println("--------------------------------------------------------");
-                    System.out.println("User Profile Pic: " + user_arr[userID - 1].getProfilePic());
-                    System.out.println("UserId : "+ user_arr[userID - 1].getUserId());
-                    System.out.println("Name : "+ user_arr[userID - 1].getUserName().trim());
-                    System.out.println("DOB : "+ Subscriber.formatDate(user_arr[userID - 1].getDOB()));
-                    System.out.println("MobileNo : "+ user_arr[userID - 1].getMobileNo());
-                    System.out.println("Email : "+ user_arr[userID - 1].getEmail());
-                    System.out.println("Account status : "+ user_arr[userID - 1].getAccStatus());
-                    System.out.println("Registration Date : "+ Subscriber.formatDate(user_arr[userID - 1].getRegDate()));
-
+                    user_arr[userID-1].displayInfo();
                     System.out.println("--------------------------------------------------------");
                     break;
                 case 3:
@@ -222,7 +211,8 @@ public class Main {
                             System.out.println("------------------Subscriber Menu------------------");
                             System.out.println("1. Renew Subscription");
                             System.out.println("2. Change Subscription");
-                            System.out.println("3. Exit");
+                            System.out.println("3. Change Password");
+                            System.out.println("4. Exit");
                             choice1 = scanner.nextInt();
                             scanner.nextLine();
                             switch(choice1){
@@ -250,12 +240,24 @@ public class Main {
                                     break;
                                 }
                                 case 3:
+                                    System.out.print("Enter your email: ");
+                                    String email = scanner.nextLine();
+                                    if(email.equals(user_arr[i].getEmail())){
+                                        System.out.println("Email verified.");
+                                        System.out.print("Enter new password: ");
+                                        String pass = scanner.nextLine();
+                                        user_arr[i].changePassword(pass);
+                                    }else{
+                                        System.out.println("Wrong Email id.");
+                                    }
+                                    break;
+                                case 4:
                                     break;
                                 default:
                                     System.out.println("Invalid choice. Try again.");
                                     break;
                             }
-                        }while(choice1 != 3);
+                        }while(choice1 != 4);
 
                     }
                     break;

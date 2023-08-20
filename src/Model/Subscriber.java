@@ -24,7 +24,7 @@ import java.util.Scanner;
  * endDate : Date of end of subscription
  * isActive : Stores the active status of the user
  */
-public class Subscriber {
+public class Subscriber{
 
     Users Objuser;
     Subscriptions Objsubs;
@@ -72,21 +72,18 @@ public class Subscriber {
     }
 
 //    Method to renew subscription
-    public void renew(){
+    public void renew(int newSubsDur){
         if(!getIsActive() || Objuser.getAccStatus().equals("inactive")){
-            System.out.println("Enter duration for Subscription (3/6/12 Months): ");
-            Scanner sc = new Scanner(System.in);
-            int months = sc.nextInt();
-            Objsubs.setSubsDuration(months);
+            Objsubs.setSubsDuration(newSubsDur);
             setIsActive(true);
             calculateEndDate();
-            System.out.println("Subscription renewed for ."+ months + " months.");
+            System.out.println("Subscription renewed for ."+ newSubsDur + " months.");
         }else{
             System.out.println(Objsubs.getSubsName() + " is already active. Can't renew right now");
         }
     }
 
-    public void renew(int newSubsDur){
+    public void renew(){
         if(!getIsActive() || Objuser.getAccStatus().equals("inactive")){
             Objsubs.setSubsDuration(3);
             setIsActive(true);
