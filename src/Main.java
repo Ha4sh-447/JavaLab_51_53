@@ -240,6 +240,7 @@ public class Main {
                                     break;
                                 }
                                 case 3:
+                                    // Change password 
                                     System.out.print("Enter your email: ");
                                     String email = scanner.nextLine();
                                     if(email.equals(user_arr[i].getEmail())){
