@@ -27,40 +27,26 @@ import java.util.Calendar;
  * accStatus : Status of user's account
  */
 
-public class Users implements DetailsManagement {
+public class Users extends Manager  implements DetailsManagement{
 
     /* User attributes */
     private int userId;
-    private String userName;
-    private Calendar dob;
-    private long mobile_no;
-    private String email;
     private String password;
-    private Calendar regDate;
     private String accStatus;
-
     private String profilePic;
 
 //    Constructors
     public Users(int userId, String userName, Calendar dob, long mobile_no, String email, String password, Calendar regDate, String accStatus, String profilePic){
+        super(userName,  dob,  mobile_no, email, regDate);
         setUserId(userId);
-        setUserName(userName);
-        setDOB(dob);
-        setMobileNo(mobile_no);
-        setEmail(email);
         setPassword(password);
-        setRegDate(regDate);
         setAccStatus(accStatus);
         setProfilePic(profilePic);
     }
     public Users(int userId, String userName, Calendar dob, long mobile_no, String email, String password, Calendar regDate, String accStatus){
+        super( userName,  dob,  mobile_no,  email,  regDate);
         setUserId(userId);
-        setUserName(userName);
-        setDOB(dob);
-        setMobileNo(mobile_no);
-        setEmail(email);
         setPassword(password);
-        setRegDate(regDate);
         setAccStatus(accStatus);
         setProfilePic("Smiley");
     }
@@ -71,29 +57,9 @@ public class Users implements DetailsManagement {
     {
         this.userId = userId;
     }
-    public void setUserName(String userName)
-    {
-        this.userName = userName;
-    }
-    public void setDOB(Calendar dob)
-    {
-        this.dob = dob;
-    }
-    public void setMobileNo(long mobile_no)
-    {
-        this.mobile_no = mobile_no;
-    }
-    public void setEmail(String email)
-    {
-        this.email = email;
-    }
     public void setPassword(String password)
     {
         this.password = password;
-    }
-    public void setRegDate(Calendar regDate)
-    {
-        this.regDate = regDate;
     }
     public void setAccStatus(String accStatus)
     {
@@ -107,33 +73,10 @@ public class Users implements DetailsManagement {
     {
         return this.userId;
     }
-    public String getUserName()
-    {
-        return this.userName;
-    }
-
-    public Calendar getDOB()
-    {
-        return this.dob;
-    }
-
-    public long getMobileNo()
-    {
-        return this.mobile_no;
-    }
-    public String getEmail()
-    {
-        return this.email;
-    }
     public String getPassword()
     {
         return this.password;
     }
-    public Calendar getRegDate()
-    {
-        return this.regDate;
-    }
-
     public String getAccStatus()
     {
         return this.accStatus;
