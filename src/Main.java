@@ -49,7 +49,8 @@ public class Main {
             System.out.println("4. Display a Subscription");
             System.out.println("5. Add a Subscriber");
             System.out.println("6. Display all Subscribers");
-            System.out.println("7. Exit");
+            System.out.println("7. Extend Subscription");
+            System.out.println("8. Exit");
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
             scanner.nextLine(); // Consume the newline character
@@ -157,11 +158,14 @@ public class Main {
                     scanner.nextLine();
 
                     System.out.println("--------------------------------------------------------");
-                    System.out.println("Subscription ID : "+ subs_arr[subsIDDisplay - 1].getSubsID());
-                    System.out.println("Subscription Name : "+ subs_arr[subsIDDisplay - 1].getSubsName());
-                    System.out.println("Subscription Description : "+ subs_arr[subsIDDisplay - 1].getSubsDesc());
-                    System.out.println("Subscription Price : "+ subs_arr[subsIDDisplay - 1].getSubsPrice());
-                    System.out.println("Duration of Subscription in Months : "+ subs_arr[subsIDDisplay - 1].getSubsDuration());
+//                    System.out.println("Subscription ID : "+ subs_arr[subsIDDisplay - 1].getSubsID());
+//                    System.out.println("Subscription Name : "+ subs_arr[subsIDDisplay - 1].getSubsName());
+//                    System.out.println("Subscription Description : "+ subs_arr[subsIDDisplay - 1].getSubsDesc());
+//                    System.out.println("Subscription Price : "+ subs_arr[subsIDDisplay - 1].getSubsPrice());
+//                    System.out.println("Duration of Subscription in Months : "+ subs_arr[subsIDDisplay - 1].getSubsDuration());
+                    subs_arr[subsIDDisplay-1].displayAgreementInfo();
+                    System.out.print("Payment method used: ");
+                    subs_arr[subsIDDisplay-1].getPaymentMethod();
                     System.out.println("--------------------------------------------------------");
                     break;
                 case 5:
@@ -262,12 +266,19 @@ public class Main {
                     }
                     break;
                 case 7:
+                    System.out.println("Enter duration: ");
+                    int month = scanner.nextInt();
+                    System.out.println("Enter Subscription Number: ");
+                    scanner.nextLine();
+                    int index = scanner.nextInt();
+                    subs_arr[index-1].extendSubscription(month);
+                case 8:
                     break;
                 default:
                     System.out.println("Invalid choice. Try again.");
                     break;
             }
-        } while (choice != 7);
+        } while (choice != 8);
 
         scanner.close();
     }

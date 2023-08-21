@@ -27,84 +27,117 @@ import java.util.Date;
  */
 
 
-public class  Subscriptions {
-    /* Subscriptions attributes */
-    private int subsID;
-    private String subsName;
-    private String subsDesc;
-    private int subsPrice;
-    private int subsDurationMonths;
-    private Calendar validFrom;
-    private boolean isActive;
+public class  Subscriptions extends Agreement implements SubscriptionManager{
+//    /* Subscriptions attributes */
+//    private int subsID;
+//    private String subsName;
+//    private String subsDesc;
+//    private int subsPrice;
+//    private int subsDurationMonths;
+//    private Calendar validFrom;
+//    private boolean isActive;
 
 //    Constructors
     public  Subscriptions(int subsID, String subsName, int subsPrice, int subsDurationMonths, Calendar validFrom, boolean isActive, String subsDesc){
-        setValidFrom(validFrom);
-        setSubsID(subsID);
-        setSubsDuration(subsDurationMonths);
-        setSubsPrice(subsPrice);
-        setIsActive(isActive);
-        setSubsName(subsName);
-        setSubsDesc(subsDesc);
+        super(subsID, subsName, subsDesc, subsPrice, subsDurationMonths, validFrom, isActive);
     }
 
 
-//    Setters
-    public void setSubsID(int subsID)
-    {
-        this.subsID = subsID;
-    }
-    public void setSubsName(String subsName)
-    {
-        this.subsName = subsName;
+////    Setters
+//    public void setSubsID(int subsID)
+//    {
+//        this.subsID = subsID;
+//    }
+//    public void setSubsName(String subsName)
+//    {
+//        this.subsName = subsName;
+//    }
+//
+//    public void setSubsDesc(String subsDesc)
+//    {
+//        this.subsDesc = subsDesc;
+//    }
+//
+//    public void setSubsPrice(int subsPrice)
+//    {
+//        this.subsPrice = subsPrice;
+//    }
+//    public void setSubsDuration(int subsDurationMonth)
+//    {
+//        this.subsDurationMonths = subsDurationMonth;
+//    }
+//
+//    public void setValidFrom(Calendar validFrom){
+//        this.validFrom = validFrom;
+//    }
+//    public void setIsActive(boolean isActive){this.isActive = isActive;}
+//
+//
+////    Getters
+//    public int getSubsID()
+//    {
+//        return this.subsID;
+//    }
+//
+//    public String getSubsName()
+//    {
+//        return this.subsName;
+//    }
+//
+//    public String getSubsDesc()
+//    {
+//        return this.subsDesc;
+//    }
+//
+//    public int getSubsPrice()
+//    {
+//        return this.subsPrice;
+//    }
+//    public int getSubsDuration()
+//    {
+//        return this.subsDurationMonths;
+//    }
+//
+//    public Calendar getValidFrom(){return this.validFrom;}
+//    public boolean getIsActive(){return this.isActive;}
+
+    public String getPaymentMethod(){
+        // Implement the logic to retrieve the payment method used for the subscription
+        String[] paymentOptions = {"Credit Card", "PayPal", "Bank Transfer", "UPI"};
+
+        if (isActive())
+        {
+            // Simulate choosing a random payment option from the list
+            int randomIndex = (int) (Math.random() * paymentOptions.length);
+            return paymentOptions[randomIndex];
+        }
+        else
+        {
+            return "No payment method available. Subscription is not active.";
+        }
     }
 
-    public void setSubsDesc(String subsDesc)
-    {
-        this.subsDesc = subsDesc;
+    public void extendSubscription(int months){
+        if (isActive()) {
+            System.out.println("Extending subscription...");
+
+            // Implement the logic for extending the subscription
+            Calendar newValidFrom = (Calendar) getValidFrom().clone();
+            newValidFrom.add(Calendar.MONTH, months);
+
+            setValidFrom(newValidFrom);
+
+            System.out.println("Subscription extended by " + months + " months. New valid from: " + newValidFrom.getTime());
+        } else {
+            System.out.println("Subscription is not active and cannot be extended.");
+        }
     }
 
-    public void setSubsPrice(int subsPrice)
-    {
-        this.subsPrice = subsPrice;
+    public void subsDisplay(){
+        System.out.println("Subscription ID: " + getAgreementID());
+        System.out.println("Name: " + getAgreementName());
+        System.out.println("Description: " + getAgreementDescription());
+        System.out.println("Price: " + getAgreementPrice());
+        System.out.println("Duration (months): " + getAgreementDurationMonths());
     }
-    public void setSubsDuration(int subsDurationMonth)
-    {
-        this.subsDurationMonths = subsDurationMonth;
-    }
-
-    public void setValidFrom(Calendar validFrom){
-        this.validFrom = validFrom;
-    }
-    public void setIsActive(boolean isActive){this.isActive = isActive;}
-
-
-//    Getters
-    public int getSubsID()
-    {
-        return this.subsID;
-    }
-
-    public String getSubsName()
-    {
-        return this.subsName;
-    }
-
-    public String getSubsDesc()
-    {
-        return this.subsDesc;
-    }
-
-    public int getSubsPrice()
-    {
-        return this.subsPrice;
-    }
-    public int getSubsDuration()
-    {
-        return this.subsDurationMonths;
-    }
-
-    public Calendar getValidFrom(){return this.validFrom;}
-    public boolean getIsActive(){return this.isActive;}
-
 }
