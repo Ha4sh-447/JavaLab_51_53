@@ -43,63 +43,6 @@ public class  Subscriptions extends Agreement implements SubscriptionManager{
     }
 
 
-////    Setters
-//    public void setSubsID(int subsID)
-//    {
-//        this.subsID = subsID;
-//    }
-//    public void setSubsName(String subsName)
-//    {
-//        this.subsName = subsName;
-//    }
-//
-//    public void setSubsDesc(String subsDesc)
-//    {
-//        this.subsDesc = subsDesc;
-//    }
-//
-//    public void setSubsPrice(int subsPrice)
-//    {
-//        this.subsPrice = subsPrice;
-//    }
-//    public void setSubsDuration(int subsDurationMonth)
-//    {
-//        this.subsDurationMonths = subsDurationMonth;
-//    }
-//
-//    public void setValidFrom(Calendar validFrom){
-//        this.validFrom = validFrom;
-//    }
-//    public void setIsActive(boolean isActive){this.isActive = isActive;}
-//
-//
-////    Getters
-//    public int getSubsID()
-//    {
-//        return this.subsID;
-//    }
-//
-//    public String getSubsName()
-//    {
-//        return this.subsName;
-//    }
-//
-//    public String getSubsDesc()
-//    {
-//        return this.subsDesc;
-//    }
-//
-//    public int getSubsPrice()
-//    {
-//        return this.subsPrice;
-//    }
-//    public int getSubsDuration()
-//    {
-//        return this.subsDurationMonths;
-//    }
-//
-//    public Calendar getValidFrom(){return this.validFrom;}
-//    public boolean getIsActive(){return this.isActive;}
 
     public String getPaymentMethod(){
         // Implement the logic to retrieve the payment method used for the subscription
