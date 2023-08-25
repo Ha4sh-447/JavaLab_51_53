@@ -246,6 +246,7 @@ public class Main {
                                     System.out.println("Subscription changed.");
                                     break;
                                 }
+
                                 case 3:
                                     // Change password 
                                     System.out.print("Enter your email: ");
