@@ -276,6 +276,7 @@ public class Main {
                     scanner.nextLine();
                     int index = scanner.nextInt();
                     subs_arr[index-1].extendSubscription(month);
+                    System.out.println("------------------------------------------------------------");
                 case 8:
                     break;
                 default:
