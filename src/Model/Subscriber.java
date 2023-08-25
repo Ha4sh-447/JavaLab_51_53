@@ -24,7 +24,7 @@ import java.util.Scanner;
  * endDate : Date of end of subscription
  * isActive : Stores the active status of the user
  */
-public class Subscriber{
+public class Subscriber {
 
     Users Objuser;
     Subscriptions Objsubs;
@@ -67,36 +67,36 @@ public class Subscriber{
 
 //   Display information
     public void display(){
-        System.out.println("ID: "+ getUserSubsId() + "\nUser: " + this.Objuser.getUserName() + "\nSubscription Name: " + this.Objsubs.getSubsName()
-        + "\nCurrent status: " + (getIsActive() ? "Active": "Inactive") + "\nSubscription starts from: " + formatDate(getStartDate()) +"\nSubscription Ends on: " + formatDate(calculateEndDate()) );
+        System.out.println("ID: "+ getUserSubsId() + "\nUser: " + this.Objuser.getUserName() + "\nSubscription Name: " + this.Objsubs.getAgreementName()
+        + "\nCurrent status: " + (getIsActive() ? "Active": "Inactive") + "\nSubscription starts from: " + formatDate(getStartDate()) +"\nSubscription Ends on: " + formatDate(calculateEndDate()) + "\nSubscription remaining for days: "+this.Objuser.calculateDays(calculateEndDate()) );
     }
 
 //    Method to renew subscription
     public void renew(int newSubsDur){
         if(!getIsActive() || Objuser.getAccStatus().equals("inactive")){
-            Objsubs.setSubsDuration(newSubsDur);
+            Objsubs.setAgreementDurationMonths(newSubsDur);
             setIsActive(true);
             calculateEndDate();
             System.out.println("Subscription renewed for ."+ newSubsDur + " months.");
         }else{
-            System.out.println(Objsubs.getSubsName() + " is already active. Can't renew right now");
+            System.out.println(Objsubs.getAgreementName() + " is already active. Can't renew right now");
         }
     }
 
     public void renew(){
         if(!getIsActive() || Objuser.getAccStatus().equals("inactive")){
-            Objsubs.setSubsDuration(3);
+            Objsubs.setAgreementDurationMonths(3);
             setIsActive(true);
             calculateEndDate();
             System.out.println("Subscription renewed for 3 months.");
         }else{
-            System.out.println(Objsubs.getSubsName() + " is already active. Can't renew right now");
+            System.out.println(Objsubs.getAgreementName() + " is already active. Can't renew right now");
         }
     }
 //    Change user subscription
     public void changeSubs(String newSub){
-        Objsubs.setSubsName(newSub);
-        System.out.println("Subscription changed to: " + Objsubs.getSubsName());
+        Objsubs.setAgreementName(newSub);
+        System.out.println("Subscription changed to: " + Objsubs.getAgreementName());
         Calendar cal = Calendar.getInstance();
         System.out.println("Subscription starts from: " + cal.getTime());
         setStartDate(cal);
@@ -105,7 +105,7 @@ public class Subscriber{
 
 //    Calculate End Date
     public Calendar calculateEndDate(){
-        int duration = Objsubs.getSubsDuration();
+        int duration = Objsubs.getAgreementDurationMonths();
 
         if(getStartDate() != null){
             Calendar calculatedEndDate = (Calendar)getStartDate().clone();

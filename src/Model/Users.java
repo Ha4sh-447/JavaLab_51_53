@@ -104,4 +104,18 @@ public class Users extends Manager  implements DetailsManagement{
         String newdate = st[2].concat(" ").concat(st[1]).concat(" ").concat(st[5]);
         return newdate;
     }
+
+    @Override
+    public int calculateDays(Calendar endDate) {
+        Calendar currDate = Calendar.getInstance();
+
+        long currTime = currDate.getTimeInMillis();
+        long endTime = endDate.getTimeInMillis();
+
+        long diffInMillis = Math.abs(endTime - currTime);
+        int secondsInADay = 60 * 60 * 24;  // Number of seconds in a day
+
+        int days = (int) (diffInMillis / (1000 * secondsInADay));
+        return days+1;
+    }
 }

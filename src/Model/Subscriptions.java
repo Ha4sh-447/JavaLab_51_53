@@ -127,7 +127,7 @@ public class  Subscriptions extends Agreement implements SubscriptionManager{
 
             setValidFrom(newValidFrom);
 
-            System.out.println("Subscription extended by " + months + " months. New valid from: " + newValidFrom.getTime());
+            System.out.println("Subscription extended by " + months + " months. New valid from: " + (newValidFrom.getTime()));
         } else {
             System.out.println("Subscription is not active and cannot be extended.");
         }

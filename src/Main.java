@@ -109,6 +109,7 @@ public class Main {
                     } else {
                         System.out.println("Array is full. Cannot create more Users.");
                     }
+                    System.out.println("------------------------------------------------------------");
                     break;
                 case 2:
                     System.out.print("Enter Id of the User to Display: ");
@@ -133,14 +134,14 @@ public class Main {
                         scanner.nextLine();
 
 
-                        System.out.println("Enter Active status (true or false): ");
+                        System.out.print("Enter Active status (true or false): ");
                         boolean subsActive = scanner.nextBoolean();
                         scanner.nextLine();
 
-                        System.out.println("Enter start date of Subscription (yyyy-mm-dd): ");
+                        System.out.print("Enter start date of Subscription (yyyy-mm-dd): ");
                         Calendar validDate = createDate();
 
-                        System.out.println("Enter Description of Subscription: ");
+                        System.out.print("Enter Description of Subscription: ");
                         String subsDesc = scanner.nextLine();
                         subs_arr[currentSubsCount] = new Subscriptions(subsID, subsName, subsPrice, subsDuration, validDate, subsActive, subsDesc);
                         currentSubsCount++;
@@ -151,6 +152,7 @@ public class Main {
                     } else {
                         System.out.println("Array is full. Cannot create more Subscriptions.");
                     }
+                    System.out.println("------------------------------------------------------------");
                     break;
                 case 4:
                     System.out.print("Enter Id of the Subscription to Display: ");
@@ -165,7 +167,7 @@ public class Main {
 //                    System.out.println("Duration of Subscription in Months : "+ subs_arr[subsIDDisplay - 1].getSubsDuration());
                     subs_arr[subsIDDisplay-1].displayAgreementInfo();
                     System.out.print("Payment method used: ");
-                    subs_arr[subsIDDisplay-1].getPaymentMethod();
+                    System.out.println(subs_arr[subsIDDisplay-1].getPaymentMethod());
                     System.out.println("--------------------------------------------------------");
                     break;
                 case 5:
@@ -207,6 +209,7 @@ public class Main {
                     } else {
                         System.out.println("Array is full. Cannot create more Subscribers.");
                     }
+                    System.out.println("------------------------------------------------------------");
                     break;
                 case 6:
                     for(int i = 0; i < currentSubscriberCount; i++) {
@@ -263,7 +266,6 @@ public class Main {
                                     break;
                             }
                         }while(choice1 != 4);
-
                     }
                     break;
                 case 7:

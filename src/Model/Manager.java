@@ -2,7 +2,7 @@ package Model;
 
 import java.util.Calendar;
 
-public class Manager {
+abstract public class Manager {
     private String userName;
     private Calendar dob;
     private long mobile_no;
@@ -60,4 +60,5 @@ public class Manager {
         return this.regDate;
     }
 
+    abstract public int calculateDays(Calendar endDate);
 }
