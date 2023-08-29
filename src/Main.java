@@ -3,6 +3,7 @@ import Model.Subscriptions;
 import Model.Users;
 import java.util.Calendar;
 import java.util.Scanner;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 public class Main {
@@ -33,6 +34,7 @@ public class Main {
         int currentSubscriberCount = 0;
 
         Scanner scanner = new Scanner(System.in);
+//        ObjectMapper mapper = new ObjectMapper();
 
         Users[] user_arr = new Users[100];
         Subscriptions[] subs_arr = new Subscriptions[20];
@@ -50,7 +52,9 @@ public class Main {
             System.out.println("5. Add a Subscriber");
             System.out.println("6. Display all Subscribers");
             System.out.println("7. Extend Subscription");
-            System.out.println("8. Exit");
+            System.out.println("8. Change Profile Picture");
+            System.out.println("9. Cancel Subscription");
+            System.out.println("10. Exit");
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
             scanner.nextLine(); // Consume the newline character
@@ -74,7 +78,8 @@ public class Main {
                             email = scanner.next();
                             if(!email.contains("@")){
                                 System.out.println("Enter valid email address.");
-                            }else break;
+                            }else chEmail= false;
+//                            break;
                         }
 
                         System.out.print("Enter Password: ");
@@ -219,52 +224,52 @@ public class Main {
                             System.out.println("1. Renew Subscription");
                             System.out.println("2. Change Subscription");
                             System.out.println("3. Change Password");
-                            System.out.println("4. Exit");
+                            System.out.println("4. Check Subscription Status");
+                            System.out.println("5. Exit");
                             choice1 = scanner.nextInt();
                             scanner.nextLine();
-                            switch(choice1){
-                                case 1: {
+                            switch (choice1) {
+                                case 1 -> {
                                     // Handle subscription renewal here
                                     System.out.println("Do you want to continue with existing subscription details?(Y/N): ");
                                     String ch = scanner.nextLine();
 
-                                    if(ch.equals("Y")){
+                                    if (ch.equals("Y")) {
                                         subscriber_arr[i].renew();
-                                    }else if(ch.equals("N")){
+                                    } else if (ch.equals("N")) {
                                         System.out.println("Enter Duration: ");
                                         int dur = scanner.nextInt();
                                         scanner.nextLine();
                                         subscriber_arr[i].renew(dur);
                                     }
-                                    break;
                                 }
-                                case 2: {
+                                case 2 -> {
                                     // Handle subscription change here
                                     System.out.println("Enter Name of new subscription: ");
                                     String newSubs = scanner.nextLine();
                                     subscriber_arr[i].changeSubs(newSubs);
                                     System.out.println("Subscription changed.");
-                                    break;
                                 }
-
-                                case 3:
-                                    // Change password 
+                                case 3 -> {
+                                    // Change password
                                     System.out.print("Enter your email: ");
                                     String email = scanner.nextLine();
-                                    if(email.equals(user_arr[i].getEmail())){
+                                    if (email.equals(user_arr[i].getEmail())) {
                                         System.out.println("Email verified.");
                                         System.out.print("Enter new password: ");
                                         String pass = scanner.nextLine();
                                         user_arr[i].changePassword(pass);
-                                    }else{
+                                    } else {
                                         System.out.println("Wrong Email id.");
                                     }
-                                    break;
-                                case 4:
-                                    break;
-                                default:
-                                    System.out.println("Invalid choice. Try again.");
-                                    break;
+                                }
+                                 case 4 -> {
+                                    Calendar endDate = subscriber_arr[i].calculateEndDate();
+                                    subs_arr[i].cancel_subscription(endDate);
+                                 }
+                                case 5 -> {
+                                }
+                                default -> System.out.println("Invalid choice. Try again.");
                             }
                         }while(choice1 != 4);
                     }
@@ -277,13 +282,28 @@ public class Main {
                     int index = scanner.nextInt();
                     subs_arr[index-1].extendSubscription(month);
                     System.out.println("------------------------------------------------------------");
+                    break;
                 case 8:
+                    System.out.println("Enter User Id: ");
+                    int userid = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.println("Enter Profile picture: ");
+                    String pic = scanner.nextLine();
+                    user_arr[userid-1].changeProfilePic(pic);
+                case 9:
+                    System.out.println("Enter Subscription id: ");
+                    int subsid = scanner.nextInt();
+                    scanner.nextLine();
+                    subs_arr[subsid-1].cancel_subscription(subsid);
+
+                    break;
+                case 10:
                     break;
                 default:
                     System.out.println("Invalid choice. Try again.");
                     break;
             }
-        } while (choice != 8);
+        } while (choice != 9);
 
         scanner.close();
     }

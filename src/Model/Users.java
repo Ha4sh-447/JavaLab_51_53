@@ -1,7 +1,6 @@
 package Model;
 
 import java.util.Calendar;
-
 /**
  * Identification comments:
  *   Name: Harsh Saindane
@@ -117,5 +116,10 @@ public class Users extends Manager  implements DetailsManagement{
 
         int days = (int) (diffInMillis / (1000 * secondsInADay));
         return days+1;
+    }
+
+    public void changeProfilePic(String pic){
+        setProfilePic(pic);
+        System.out.println("Profile Picture successfully updated.");
     }
 }

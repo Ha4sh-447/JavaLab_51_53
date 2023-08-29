@@ -1,10 +1,9 @@
 package Model;
 import java.util.Calendar;
 import java.util.Date;
-
 /**
  * Identification comments:
- *   Name: Harsh Saindane
+ *   Name: Sarang
  *   Experiment No: 2
  *   Experiment Title: Implementing Many-to-Many relationships using Arrays
  *   Experiment Date: 01-08-2023
@@ -82,5 +81,44 @@ public class  Subscriptions extends Agreement implements SubscriptionManager{
         System.out.println("Description: " + getAgreementDescription());
         System.out.println("Price: " + getAgreementPrice());
         System.out.println("Duration (months): " + getAgreementDurationMonths());
+    }
+
+    public void cancel_subscription(Calendar endDate) {
+        if (isActive()) {
+            System.out.println("Cancelling subscription...");
+            Calendar currentDate = Calendar.getInstance();
+            Calendar subscriptionEndDate = endDate;
+            if (currentDate.compareTo(subscriptionEndDate) > 0) {
+                setActive(false);
+                System.out.println("Subscription has been cancelled and is now inactive.");
+            } else {
+                System.out.println("Subscription cannot be cancelled as it's still active.");
+            }
+        } else {
+            System.out.println("Subscription is not active and cannot be cancelled.");
+        }
+    }
+
+    public void cancel_subscription(int subsId) {
+        if (isActive()) {
+            System.out.println("Cancelling subscription...");
+            setActive(false);
+            System.out.println("Subscription cancelled.");
+        } else {
+            System.out.println("Subscription is not active.");
+        }
+    }
+
+    public boolean isPaymentOverdue(Calendar endDate) {
+        // Get the current date
+        Calendar currentDate = Calendar.getInstance();
+        // Check if the current date is after the end date of the subscription
+        if (currentDate.compareTo(endDate) > 0) {
+            // Payment is overdue
+            return true;
+        } else {
+            // Payment is not overdue
+            return false;
+        }
     }
 }

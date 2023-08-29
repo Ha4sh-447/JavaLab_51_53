@@ -61,4 +61,5 @@ abstract public class Manager {
     }
 
     abstract public int calculateDays(Calendar endDate);
+    abstract public void changeProfilePic(String pic);
 }
