@@ -59,7 +59,7 @@ public class Subscriber {
 
 
 //    Input data
-    public void input(Users tempUsers, Subscriptions tempSubs, Calendar start_date){
+    public void input(Users tempUsers, Subscriptions tempSubs){
         this.Objsubs = tempSubs;
         this.Objuser = tempUsers;
 //        cal1 = start_date;
