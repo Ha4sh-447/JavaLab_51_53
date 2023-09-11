@@ -99,7 +99,7 @@ public class  Subscriptions extends Agreement implements SubscriptionManager{
         }
     }
 
-    public void cancel_subscription(int subsId) {
+    public void cancel_subscription() {
         if (isActive()) {
             System.out.println("Cancelling subscription...");
             setActive(false);
