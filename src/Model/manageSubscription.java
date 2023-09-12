@@ -24,7 +24,7 @@ public class manageSubscription {
             JsonNode jsonread = mapper.readTree(new File(filepath));
 
             if(jsonread.isArray()){
-                for(JsonNode node: jsonread){
+                for (JsonNode node : jsonread) {
                     int id = node.get("subsId").asInt();
                     String name = node.get("subsName").asText();
                     int subsPrice = node.get("subsPrice").asInt();
@@ -33,9 +33,9 @@ public class manageSubscription {
                     boolean isActive = node.get("isActive").asBoolean();
                     String subsDesc = node.get("subsDesc").asText();
 
+                    Calendar validfrom = Calendar.getInstance();
                     validfrom.setTime(validFrom);
 
-// int subsID, String subsName, int subsPrice, int subsDurationMonths, Calendar validFrom, boolean isActive, String subsDesc
                     Subscriptions subsObj = new Subscriptions(id, name, subsPrice, subsDurationMonths, validfrom, isActive, subsDesc);
                     subs.add(subsObj);
                 }

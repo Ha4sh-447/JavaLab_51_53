@@ -29,7 +29,7 @@ import com.fasterxml.jackson.databind.*;
 public class manageUsers {
 //    Variables
     ArrayList<Users> users = new ArrayList<Users>();
-    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
     Calendar userdob = Calendar.getInstance();
     Calendar userRegDate = Calendar.getInstance();
 
@@ -41,7 +41,7 @@ public class manageUsers {
             JsonNode jsonread = mapper.readTree(new File(filepath));
 
             if(jsonread.isArray()){
-                for(JsonNode node: jsonread){
+                for (JsonNode node : jsonread) {
                     int id = node.get("userId").asInt();
                     String name = node.get("userName").asText();
                     long mobile_no = node.get("mobile_no").asLong();
@@ -52,6 +52,9 @@ public class manageUsers {
                     String accStatus = node.get("accStatus").asText();
                     String profilePic = node.get("ProfilePic").asText();
 
+                    // Create new Calendar instances for dob and regDate
+                    Calendar userdob = Calendar.getInstance();
+                    Calendar userRegDate = Calendar.getInstance();
                     userdob.setTime(dob);
                     userRegDate.setTime(regDate);
 

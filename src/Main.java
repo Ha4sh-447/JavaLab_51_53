@@ -1,11 +1,8 @@
 import Model.*;
-
-
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Scanner;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
@@ -199,8 +196,14 @@ public class Main {
                                 break;
                             case 4:
 //                    Display all users
-                                mu.displayJSON(users);
+//                                mu.displayJSON(users);
+                                System.out.println("----------------------------------------------------");
+                                for (int i = 0; i < user_useable.size(); i++) {
+                                    user_useable.get(i).displayInfo();
+                                    System.out.println("------------------------------------------------");
+                                }
                                 break;
+
                             case 5:
 //                   Delete a User
                                 System.out.println("Enter Id of user to be deleted: ");
@@ -335,7 +338,12 @@ public class Main {
                                 break;
                             case 4:
 //                    Display all users
-                                ms.displayJSONSubs(subs);
+                                System.out.println("----------------------------------------------------");
+                                for (int i = 0; i < subs_useable.size(); i++) {
+                                    subs_useable.get(i).subsDisplay();
+                                    System.out.println("------------------------------------------------");
+                                }
+
                                 break;
                             case 5:
 //                   Delete a User
