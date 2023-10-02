@@ -24,34 +24,22 @@ public class manageSubscription {
             JsonNode jsonread = mapper.readTree(new File(filepath));
 
             if(jsonread.isArray()){
-<<<<<<< HEAD
-                for(JsonNode node: jsonread){
+
+                for (JsonNode node : jsonread) {
                     int subsId = node.get("subsId").asInt();
                     String subsName = node.get("subsName").asText();
-=======
-                for (JsonNode node : jsonread) {
-                    int id = node.get("subsId").asInt();
-                    String name = node.get("subsName").asText();
->>>>>>> origin/main
                     int subsPrice = node.get("subsPrice").asInt();
                     int subsDurationMonths = node.get("subsDurationMonths").asInt();
                     Date validFrom = sdf.parse(node.get("validFrom").asText());
                     boolean isActive = node.get("isActive").asBoolean();
                     String subsDesc = node.get("subsDesc").asText();
 
-<<<<<<< HEAD
+                    Calendar validfrom = Calendar.getInstance();
                     validfrom.setTime(validFrom);
 
 // int subsID, String subsName, int subsPrice, int subsDurationMonths, Calendar validFrom, boolean isActive, String subsDesc
                     Subscriptions subsObj = new Subscriptions(subsId, subsName, subsPrice, subsDurationMonths, validfrom, isActive, subsDesc);
                     this.subs.add(subsObj);
-=======
-                    Calendar validfrom = Calendar.getInstance();
-                    validfrom.setTime(validFrom);
-
-                    Subscriptions subsObj = new Subscriptions(id, name, subsPrice, subsDurationMonths, validfrom, isActive, subsDesc);
-                    subs.add(subsObj);
->>>>>>> origin/main
                 }
             }
         }catch (Exception e){

@@ -1,9 +1,6 @@
 package Model;
 import java.io.*;
-<<<<<<< HEAD
-=======
 import java.nio.file.Paths;
->>>>>>> origin/main
 import java.text.SimpleDateFormat;
 import java.util.*;
 import com.fasterxml.jackson.databind.*;
@@ -29,7 +26,7 @@ import com.fasterxml.jackson.databind.*;
  * userdob : Calendar object to store dob of user
  * userRegDate : Calendar object to store registration date of user
  */
-<<<<<<< HEAD
+
 public class manageUsers extends FilehandlingUsers implements Displayable{
 //    Variables
     ArrayList<Users> users = new ArrayList<Users>();
@@ -49,28 +46,15 @@ public class manageUsers extends FilehandlingUsers implements Displayable{
 
     //    Reads json file to the users ArrayList
     public ArrayList<Users> readJson(String filepath){
-=======
-public class manageUsers {
-//    Variables
-    ArrayList<Users> users = new ArrayList<Users>();
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
-    Calendar userdob = Calendar.getInstance();
-    Calendar userRegDate = Calendar.getInstance();
 
-//    Reads json file to the users ArrayList
-    public ArrayList<Users> readjson(String filepath){
->>>>>>> origin/main
         ObjectMapper mapper = new ObjectMapper();
 
         try{
             JsonNode jsonread = mapper.readTree(new File(filepath));
 
             if(jsonread.isArray()){
-<<<<<<< HEAD
-                for(JsonNode node: jsonread){
-=======
                 for (JsonNode node : jsonread) {
->>>>>>> origin/main
+
                     int id = node.get("userId").asInt();
                     String name = node.get("userName").asText();
                     long mobile_no = node.get("mobile_no").asLong();
@@ -81,7 +65,6 @@ public class manageUsers {
                     String accStatus = node.get("accStatus").asText();
                     String profilePic = node.get("ProfilePic").asText();
 
-<<<<<<< HEAD
                     userdob.setTime(dob);
                     userRegDate.setTime(regDate);
 //                  Get the date and time as a String in the desired format
@@ -89,13 +72,13 @@ public class manageUsers {
                     String regDateString = sdf.format(userRegDate.getTime());
                     users_Date.add(dobString);
                     users_RegDate.add(regDateString);
-=======
+
                     // Create new Calendar instances for dob and regDate
                     Calendar userdob = Calendar.getInstance();
                     Calendar userRegDate = Calendar.getInstance();
                     userdob.setTime(dob);
                     userRegDate.setTime(regDate);
->>>>>>> origin/main
+
 
                     Users usr = new Users(id, name, userdob, mobile_no, email, password, userRegDate, accStatus, profilePic);
                     users.add(usr);
@@ -108,7 +91,7 @@ public class manageUsers {
         return users;
     }
 
-<<<<<<< HEAD
+
     public ArrayList<String> getHeaders() {
         ArrayList<String> headers = new ArrayList<String>();
         headers.add("userId");
@@ -124,8 +107,7 @@ public class manageUsers {
         return headers;
     }
 
-=======
->>>>>>> origin/main
+
 //    Displays JSON file
     public void displayJSON(ArrayList<Users> users){
         ObjectMapper mapper = new ObjectMapper();
@@ -140,7 +122,7 @@ public class manageUsers {
         }
     }
 
-<<<<<<< HEAD
+
     public ArrayList<String> getLine(int line) {
         ArrayList<String> user_details = new ArrayList<String>();
         user_details.add(String.valueOf(users.get(line).getUserId()));
@@ -209,8 +191,6 @@ public class manageUsers {
     public ArrayList getTable() {
         return users;
     }
-
-
-=======
->>>>>>> origin/main
+        
 }
+
