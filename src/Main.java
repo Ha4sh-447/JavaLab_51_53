@@ -1,4 +1,4 @@
-import Controller.Controller;
+import Controller.*;
 import Model.*;
 
 
@@ -35,9 +35,33 @@ public class Main {
 
     public static void main(String[] args) {
 
-        View view = new View();
-        Model model = new Model();
-        Controller controller = new Controller(model, view);
+        int choice;
+        Scanner sc = new Scanner(System.in);
+//        sc.nextLine();
+
+        do {
+            System.out.println("Choose display option: ");
+            System.out.println("1) Users\n2)Subscriptions\n3)Exit");
+            System.out.print("Enter choice: ");
+            choice = sc.nextInt();
+
+            switch (choice){
+                case 1:
+                    View view = new View();
+                    Model model = new Model();
+                    Controller controller = new Controller(model, view);
+                    break;
+
+                case 2:
+                    View viewS = new View();
+                    Model modelS= new Model();
+                    ControllerSubs controllerSubs = new ControllerSubs(modelS, viewS);
+                    break;
+
+                default: break;
+            }
+        }while(choice!=3);
+
     }
 }
 
