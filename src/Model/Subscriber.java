@@ -65,6 +65,10 @@ public class Subscriber {
 //        cal1 = start_date;
     }
 
+    public void displayTemp(){
+        System.out.println("ID: "+ getUserSubsId() + "\nUser: " + this.Objuser.getUserName()+ "\nSubscription Name: " + this.Objsubs.getAgreementName());
+    }
+
 //   Display information
     public void display(){
         System.out.println("ID: "+ getUserSubsId() + "\nUser: " + this.Objuser.getUserName() + "\nSubscription Name: " + this.Objsubs.getAgreementName()

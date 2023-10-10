@@ -100,9 +100,9 @@ public class manageUsers extends FilehandlingUsers implements Displayable{
         headers.add("dob");
         headers.add("mobile_no");
         headers.add("regDate");
-        headers.add("password");
+//        headers.add("password");
         headers.add("accStatus");
-        headers.add("ProfilePic");
+//        headers.add("ProfilePic");
 
         return headers;
     }
