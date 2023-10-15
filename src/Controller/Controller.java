@@ -4,6 +4,8 @@ import Model.*;
 import View.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -11,6 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Controller{
@@ -25,11 +28,12 @@ public class Controller{
         view.centerInitialSetup(model.getManageUserData().getLinesBeingDisplayed(), model.getManageUserData().getHeaders().size());
         view.centerUpdate(model.getManageUserData().getLines(model.getManageUserData().getFirstLineToDisplay(), model.getManageUserData().getLastLineToDisplay()), model.getManageUserData().getHeaders());
         addScrolling();
-
+        addButtonCreateSubs();
         addButtonClick();
         addButtonCreate();
         addButtonDeleteUsers();
-        addButtonUpdate();
+        addButtonUpdateSubs();
+        addButtonClickUpdateUser();
         deleteSubsActionListener();
     }
 
@@ -48,13 +52,139 @@ public class Controller{
 //        addScrollingSubs();
     }
 
+    private void addButtonClickUpdateUser() {
+        view.getMf().getIp().getBp().getUpdate_users().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                JFrame frame =new JFrame("Update a Car");
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.setSize(400, 500);
+                frame.setLayout(new FlowLayout());
+
+                ObjectMapper mapper = new ObjectMapper();
+                ArrayList<Users> usersArrayList =model.getManageUserData().getTable();
+
+                frame.add(new JLabel("User ID: "));
+                JTextField idInput = new JTextField(10);
+                frame.add(idInput);
+                JButton updateButton = new JButton("Update");
+                frame.add(updateButton);
+
+                updateButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        int carId = Integer.parseInt(idInput.getText());
+                        String ask = JOptionPane.showInputDialog("1.UserName\n2.Contact\n3.Password\n4.DOB\n5.ProfilePic\n6. Email");
+                        int choice = Integer.parseInt(ask);
+
+                        switch (choice) {
+                            case 1 -> {
+                                String userName = JOptionPane.showInputDialog("Change to:");
+                                usersArrayList.get(carId  - 1).setUserName(userName);
+                            }
+                            case 2 -> {
+                                long contact = Long.parseLong(JOptionPane.showInputDialog("Change to:"));
+                                usersArrayList.get(carId  - 1).setMobileNo(contact);
+                            }
+                            case 3 -> {
+                                String password = JOptionPane.showInputDialog("Change to:");
+                                usersArrayList.get(carId  - 1).setPassword(password);
+                            }
+                            case 4 -> {
+                                String dob = JOptionPane.showInputDialog("Change to:");
+                                usersArrayList.get(carId  - 1).setDob_string(dob);
+                            }
+                            case 5 -> {
+                                String profilePic = JOptionPane.showInputDialog("Change to:");
+                                usersArrayList.get(carId  - 1).setProfilePic(profilePic);
+                            }
+                            case 6 -> {
+                                String email = JOptionPane.showInputDialog("Change to:");
+                                usersArrayList.get(carId  - 1).setEmail(email);
+                            }
+                            default -> {
+                                JOptionPane.showMessageDialog(null, "Error: Invalid Input");
+                            }
+                        }
+
+                        try {
+                            mapper.writeValue(Paths.get("src/Model/users.json").toFile(), usersArrayList);
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+
+                        JOptionPane.showMessageDialog(null, "Update Completed.");
+                        /* Start tryout */
+                        model.getManageUserData().setLinesBeingDisplayed(25);
+                        model.getManageUserData().setFirstLineToDisplay(0);
+                        view.centerInitialSetup(model.getManageUserData().getLinesBeingDisplayed(), model.getManageUserData().getHeaders().size());
+                        view.centerUpdate(model.getManageUserData().getLines(model.getManageUserData().getFirstLineToDisplay(), model.getManageUserData().getLastLineToDisplay()), model.getManageUserData().getHeaders());
+                        addScrolling();
+                        /* End tryout */
+                        frame.dispose();
+                    }
+                });
+                frame.setVisible(true);
+            }
+        });
+    }
     private void addButtonDeleteUsers(){
         view.getMf().getIp().getBp().getDelete_users().addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                System.out.println("Delete Users pressed");
-                deleteUsers del = new deleteUsers();
-                view.centerUpdate(model.getManageUserData().getLines(model.getManageUserData().getFirstLineToDisplay(), model.getManageUserData().getLastLineToDisplay()), model.getManageUserData().getHeaders());
+//                System.out.println("Delete Users pressed");
+//                deleteUsers del = new deleteUsers();
+//                view.centerUpdate(model.getManageUserData().getLines(model.getManageUserData().getFirstLineToDisplay(), model.getManageUserData().getLastLineToDisplay()), model.getManageUserData().getHeaders());
+                JFrame frame = new JFrame("Delete User");
+                frame.setSize(300, 150);
+                frame.setLayout(new FlowLayout());
+
+                JLabel idLabel = new JLabel("Enter User ID to Delete:");
+                JTextField idInput = new JTextField(10);
+
+                JButton deleteButton = new JButton("Delete");
+
+                frame.add(idLabel);
+                frame.add(idInput);
+                frame.add(deleteButton);
+
+                deleteButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        try {
+                            int userToDelete = Integer.parseInt(idInput.getText());
+
+                            ArrayList<Users> users = model.getManageUserData().getTable();
+
+                            if (userToDelete >= 1 && userToDelete <= users.size()) {
+                                String userName = users.get(userToDelete - 1).getUserName();
+                                users.remove(userToDelete - 1);
+
+                                ObjectMapper mapper = new ObjectMapper();
+                                try {
+                                    mapper.writeValue(Paths.get("src/Model/users.json").toFile(), users);
+                                    JOptionPane.showMessageDialog(frame, "User Deleted: " + userName);
+                                } catch (IOException ex) {
+                                    JOptionPane.showMessageDialog(frame, "Error: " + ex.getMessage());
+                                }
+                            } else {
+                                JOptionPane.showMessageDialog(frame, "Invalid User ID");
+                            }
+                        } catch (NumberFormatException ex) {
+                            JOptionPane.showMessageDialog(frame, "Error: " + ex.getMessage());
+                        }
+                        frame.dispose();
+                    }
+
+                });
+
+                frame.addWindowListener(new WindowAdapter() {
+                    public void windowClosing(WindowEvent we) {
+                        frame.dispose();
+                    }
+                });
+
+                frame.setVisible(true);
+
             }
         });
     }
@@ -64,64 +194,356 @@ public class Controller{
             @Override
             public void mousePressed(MouseEvent e) {
                 System.out.println("Delete Subs pressed");
-                deleteSubsForm del = new deleteSubsForm();
-                centerSubs(model, view);
+                JFrame frame = new JFrame("Delete Subscription");
+                frame.setSize(300, 150);
+                frame.setLayout(new FlowLayout());
+
+                JLabel idLabel = new JLabel("Enter Subscription ID to Delete:");
+                JTextField idInput = new JTextField(10);
+
+                JButton deleteButton = new JButton("Delete");
+
+                frame.add(idLabel);
+                frame.add(idInput);
+                frame.add(deleteButton);
+
+                deleteButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        try {
+                            int subsToDelete = Integer.parseInt(idInput.getText());
+
+                            ArrayList<Subscriptions> subscriptionsArrayList = model.getManageSubsData().getTable();
+
+                            if (subsToDelete >= 1 && subsToDelete <= subscriptionsArrayList.size()) {
+                                String subsName = subscriptionsArrayList.get(subsToDelete - 1).getAgreementName();
+                                subscriptionsArrayList.remove(subsToDelete - 1);
+
+                                ObjectMapper mapper = new ObjectMapper();
+                                try {
+                                    mapper.writeValue(Paths.get("src/Model/subscriptionsArrayList.json").toFile(), subscriptionsArrayList);
+                                    JOptionPane.showMessageDialog(frame, "Subscription Deleted: " + subsName);
+                                } catch (IOException ex) {
+                                    JOptionPane.showMessageDialog(frame, "Error: " + ex.getMessage());
+                                }
+                            } else {
+                                JOptionPane.showMessageDialog(frame, "Invalid Subscription ID");
+                            }
+                        } catch (NumberFormatException ex) {
+                            JOptionPane.showMessageDialog(frame, "Error: " + ex.getMessage());
+                        }
+                        frame.dispose();
+                    }
+
+                });
+
+                frame.addWindowListener(new WindowAdapter() {
+                    public void windowClosing(WindowEvent we) {
+                        frame.dispose();
+                    }
+                });
+
+                frame.setVisible(true);
+
             }
         });
 
     }
 
-    private void addButtonUpdate(){
-        view.getMf().getIp().getBp().getUpdate_users().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                System.out.println("Update Users pressed");
-            }
-        });
-
+    private void addButtonUpdateSubs() {
         view.getMf().getIp().getBp().getUpdate_subs().addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 System.out.println("Update Subs pressed");
-                UpdataSubsForm updataSubsForm = new UpdataSubsForm();
+                JFrame frame = new JFrame("Update a Subscription");
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.setSize(400, 500);
+                frame.setLayout(new FlowLayout());
+
+                ObjectMapper mapper = new ObjectMapper();
+                ArrayList<Subscriptions> subscriptionsArrayList = model.getManageSubsData().getTable();
+
+                frame.add(new JLabel("User ID: "));
+                JTextField idInput = new JTextField(10);
+                frame.add(idInput);
+                JButton updateButton = new JButton("Update");
+                frame.add(updateButton);
+
+                updateButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        int carId = Integer.parseInt(idInput.getText());
+                        String ask = JOptionPane.showInputDialog("1.Subscription Name\n2.Price\n3.Description\n4.Start Date\n5.Duration\n6. Active Status");
+                        int choice = Integer.parseInt(ask);
+
+                        switch (choice) {
+                            case 1 -> {
+                                String subsName = JOptionPane.showInputDialog("Change to:");
+                                subscriptionsArrayList.get(carId - 1).setAgreementName(subsName);
+                            }
+                            case 2 -> {
+                                long price = Long.parseLong(JOptionPane.showInputDialog("Change to:"));
+                                subscriptionsArrayList.get(carId - 1).setAgreementPrice((int) price);
+                            }
+                            case 3 -> {
+                                String description = JOptionPane.showInputDialog("Change to:");
+                                subscriptionsArrayList.get(carId - 1).setAgreementDescription(description);
+                            }
+                            case 4 -> {
+                                String startDate = JOptionPane.showInputDialog("Change to:");
+                                subscriptionsArrayList.get(carId - 1).setValid_from(startDate);
+                            }
+                            case 5 -> {
+                                String duration = JOptionPane.showInputDialog("Change to:");
+                                subscriptionsArrayList.get(carId - 1).setAgreementDurationMonths(Integer.parseInt(duration));
+                            }
+                            case 6 -> {
+                                String activeStatus = JOptionPane.showInputDialog("Change to:");
+                                subscriptionsArrayList.get(carId - 1).setActive(Boolean.parseBoolean(activeStatus));
+                            }
+                            default -> {
+                                JOptionPane.showMessageDialog(null, "Error: Invalid Input");
+                            }
+                        }
+
+                        try {
+                            mapper.writeValue(Paths.get("src/Model/subscription.json").toFile(), subscriptionsArrayList);
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+
+                        JOptionPane.showMessageDialog(null, "Update Completed.");
+                        /* Start tryout */
+                        model.getManageSubsData().setLinesBeingDisplayed(25);
+                        model.getManageSubsData().setFirstLineToDisplay(0);
+                        view.centerInitialSetup(model.getManageSubsData().getLinesBeingDisplayed(), model.getManageSubsData().getHeaders().size());
+                        view.centerUpdate(model.getManageSubsData().getLines(model.getManageSubsData().getFirstLineToDisplay(), model.getManageSubsData().getLastLineToDisplay()), model.getManageSubsData().getHeaders());
+                        addScrollingSubs();
+                        /* End tryout */
+                        frame.dispose();
+                    }
+                });
+                frame.addWindowListener(new WindowAdapter() {
+                    public void windowClosing(WindowEvent we) {
+                        frame.dispose();
+                    }
+                });
+
+                frame.setVisible(true);
             }
         });
     }
 
 
-    private void addButtonCreate(){
+
+    private void addButtonCreate() {
         view.getMf().getIp().getBp().getCreate_users().addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent me) {
-                System.out.println("Create Users pressed");
-                CreateUserForm userForm = null;
-                try {
-                    userForm = new CreateUserForm();
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                ObjectMapper mapper = new ObjectMapper();
+                ArrayList<Users> usersArrayList;
+                usersArrayList = model.getManageUserData().getTable();
 
-                userForm.addWindowListener(new WindowAdapter() {
-                    public void windowClosed(WindowEvent e) {
-                        centerUsers(); // call method to update view
+                int carId = usersArrayList.size() + 1;
+
+                Frame frame = new Frame("Add a User");
+                frame.setSize(450, 500);
+
+                Label usernameLabel = new Label("Username:");
+                TextField usernameInput = new TextField(20);
+                Label dobLabel = new Label("DOB(YYYY-MM-DD):");
+                TextField dobInput = new TextField(20);
+                Label contactLabel = new Label("Contact:");
+                TextField contactInput = new TextField(20);
+                Label passLabel = new Label("Password:");
+                TextField passwordInput = new TextField(20);
+                Label regLabel = new Label("Registration Date(YYYY-MM-DD):");
+                TextField registerInput = new TextField(20);
+                Label emailLabel = new Label("Email:");
+                TextField emailInput = new TextField(20);
+                Label accStatusLabel = new Label("Email:");
+                TextField accStatusInput = new TextField(20);
+
+                Button confirmButton = new Button("Confirm");
+                confirmButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String username = usernameInput.getText();
+                        String dob = dobInput.getText();
+
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+                        Date date = null;
+                        try {
+                            date = dateFormat.parse(dob);
+                        } catch (ParseException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        Calendar calDOB = Calendar.getInstance();
+                        calDOB.setTime(date);
+
+                        long contactInputText = Long.parseLong(contactInput.getText());
+                        String password = passwordInput.getText();
+                        String reg = registerInput.getText();
+
+                        Date date2 = null;
+                        try {
+                            date2 = dateFormat.parse(reg);
+                        } catch (ParseException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        Calendar calRegDate = Calendar.getInstance();
+                        calRegDate.setTime(date2);
+
+                        String emailInputText = emailInput.getText();
+                        String acc = accStatusInput.getText();
+
+                        int id = usersArrayList.get(usersArrayList.size() - 1).getUserId() + 1;
+
+                        Users usersArrayListObj = new Users(reg, dob, id, username, calDOB, contactInputText, emailInputText, password, calRegDate, acc, "SmilyPic");
+                        usersArrayList.add(usersArrayListObj);
+
+                        try {
+                            mapper.writeValue(Paths.get("src/Model/users.json").toFile(), usersArrayList);
+                        } catch (IOException ex) {
+                            throw  new RuntimeException(ex);
+                        }
+
+                        JOptionPane.showMessageDialog(null, "User successfully added (id: " + id + ")");
+                        /* Start tryout */
+                        model.getManageUserData().setLinesBeingDisplayed(25);
+                        model.getManageUserData().setFirstLineToDisplay(0);
+                        view.centerInitialSetup(model.getManageUserData().getLinesBeingDisplayed(), model.getManageUserData().getHeaders().size());
+                        view.centerUpdate(model.getManageUserData().getLines(model.getManageUserData().getFirstLineToDisplay(), model.getManageUserData().getLastLineToDisplay()), model.getManageUserData().getHeaders());
+                        addScrolling();
+                        /* End tryout */
+                        frame.dispose();
+
                     }
                 });
-                ArrayList<Users> usersArrayList = model.getManageUserData().getTable();
-                System.out.println(usersArrayList.size());
-                System.out.println(usersArrayList.size()+"hello");
+
+                frame.setLayout(new GridLayout(8, 2));
+                frame.add(usernameLabel);
+                frame.add(usernameInput);
+                frame.add(dobLabel);
+                frame.add(dobInput);
+                frame.add(contactLabel);
+                frame.add(contactInput);
+                frame.add(passLabel);
+                frame.add(passwordInput);
+                frame.add(regLabel);
+                frame.add(registerInput);
+                frame.add(emailLabel);
+                frame.add(emailInput);
+                frame.add(accStatusLabel);
+                frame.add(accStatusInput);
+                frame.add(confirmButton);
+
+                frame.setVisible(true);
+
             }
         });
+    }
 
+    private void addButtonCreateSubs(){
         view.getMf().getIp().getBp().getCreate_subs().addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent me) {
                 System.out.println("Create Subscription Pressed");
-                SubscriptionCreateForm createForm = new SubscriptionCreateForm();
-                ArrayList<Subscriptions> subs = createForm.createFormMethod();
-                centerSubs(model, view);
+//                SubscriptionCreateForm createForm = new SubscriptionCreateForm();
+//                ArrayList<Subscriptions> subs = createForm.createFormMethod();
+//                centerSubs(model, view);
+
+                ObjectMapper mapper = new ObjectMapper();
+                ArrayList<Subscriptions> subsArrayList;
+                subsArrayList = model.getManageSubsData().getTable();
+
+                int carId = subsArrayList.size() + 1;
+
+                Frame frame = new Frame("Add a Subscription");
+                frame.setSize(450, 500);
+
+                Label subsNameLabel = new Label("Subscription Name:");
+                TextField subsNameInput = new TextField(20);
+                Label descLabel = new Label("Description:");
+                TextField descInput = new TextField(20);
+                Label durationLabel = new Label("Duration (Months):");
+                TextField durationInput = new TextField(20);
+                Label priceLabel = new Label("Price:");
+                TextField priceInput = new TextField(20);
+                Label activeLabel = new Label("Active Status:");
+                TextField activeInput = new TextField(20);
+                Label startLabel = new Label("Start Date (YYYY-MM-DD):");
+                TextField startInput = new TextField(20);
+
+
+                Button confirmButton = new Button("Confirm");
+                confirmButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String subsName = subsNameInput.getText();
+                        String desc = descInput.getText();
+                        String startdate = startInput.getText();
+
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+                        Date date = null;
+                        try {
+                            date = dateFormat.parse(startdate);
+                        } catch (ParseException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        Calendar calStart = Calendar.getInstance();
+                        calStart.setTime(date);
+
+                        int duration = Integer.parseInt(durationInput.getText());
+                        int price = Integer.parseInt(priceInput.getText());
+                        boolean activeInputText = Boolean.parseBoolean(activeInput.getText());
+
+
+
+                        int id = subsArrayList.get(subsArrayList.size() - 1).getAgreementID() + 1;
+
+                        Subscriptions subsObj = new Subscriptions(startdate,id, subsName, price, duration, calStart, activeInputText, desc);
+                        subsArrayList.add(subsObj);
+
+                        try {
+                            mapper.writeValue(Paths.get("src/Model/subscription.json").toFile(), subsArrayList);
+                        } catch (IOException ex) {
+                            throw  new RuntimeException(ex);
+                        }
+
+                        JOptionPane.showMessageDialog(null, "User successfully added (id: " + id + ")");
+                        /* Start tryout */
+                        model.getManageUserData().setLinesBeingDisplayed(25);
+                        model.getManageUserData().setFirstLineToDisplay(0);
+                        view.centerInitialSetup(model.getManageUserData().getLinesBeingDisplayed(), model.getManageUserData().getHeaders().size());
+                        view.centerUpdate(model.getManageUserData().getLines(model.getManageUserData().getFirstLineToDisplay(), model.getManageUserData().getLastLineToDisplay()), model.getManageUserData().getHeaders());
+                        addScrolling();
+                        /* End tryout */
+                        frame.dispose();
+                    }
+                });
+
+                frame.setLayout(new GridLayout(7, 2));
+                frame.add(subsNameLabel);
+                frame.add(subsNameInput);
+                frame.add(descLabel);
+                frame.add(descInput);
+                frame.add(durationLabel);
+                frame.add(durationInput);
+                frame.add(priceLabel);
+                frame.add(priceInput);
+                frame.add(activeLabel);
+                frame.add(activeInput);
+                frame.add(startLabel);
+                frame.add(startInput);
+                frame.add(confirmButton);
+
+                frame.setVisible(true);
+
             }
         });
     }
+
+
     private void addButtonClick() {
         view.getMf().getIp().getBp().getBtn_users().addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent me) {
