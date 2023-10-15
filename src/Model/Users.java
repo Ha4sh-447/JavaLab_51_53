@@ -34,20 +34,43 @@ public class Users extends Manager  implements DetailsManagement{
     private String accStatus;
     private String profilePic;
 
-//    Constructors
-    public Users(int userId, String userName, Calendar dob, long mobile_no, String email, String password, Calendar regDate, String accStatus, String profilePic){
+    private String dob_string;
+    private String regDate_string;
+
+    public String getDob_string() {
+        return dob_string;
+    }
+
+    public void setDob_string(String dob_string) {
+        this.dob_string = dob_string;
+    }
+
+    public String getRegDate_string() {
+        return regDate_string;
+    }
+
+    public void setRegDate_string(String regDate_string) {
+        this.regDate_string = regDate_string;
+    }
+
+    //    Constructors
+    public Users(String regDate_string,String dob_string,int userId, String userName, Calendar dob, long mobile_no, String email, String password, Calendar regDate, String accStatus, String profilePic){
         super(userName,  dob,  mobile_no, email, regDate);
         setUserId(userId);
         setPassword(password);
         setAccStatus(accStatus);
         setProfilePic(profilePic);
+        setDob_string(dob_string);
+        setRegDate_string(regDate_string);
     }
-    public Users(int userId, String userName, Calendar dob, long mobile_no, String email, String password, Calendar regDate, String accStatus){
+    public Users(String regDate_string,String dob_string, int userId, String userName, Calendar dob, long mobile_no, String email, String password, Calendar regDate, String accStatus){
         super( userName,  dob,  mobile_no,  email,  regDate);
         setUserId(userId);
         setPassword(password);
         setAccStatus(accStatus);
         setProfilePic("Smiley");
+        setDob_string(dob_string);
+        setRegDate_string(regDate_string);
     }
 
 

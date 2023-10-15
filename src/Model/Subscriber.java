@@ -22,7 +22,7 @@ import java.util.Scanner;
  * userSubsId : Stores unique Id of both User and Subscription
  * startDate : Date of start of subscription
  * endDate : Date of end of subscription
- * isActive : Stores the active status of the user
+ * getActive : Stores the getActive status of the user
  */
 public class Subscriber {
 
@@ -32,7 +32,7 @@ public class Subscriber {
     private int userSubsId;
     private Calendar startDate;
     private Calendar endDate;
-    private boolean isActive;
+    private boolean active;
 
 
 //    Setters
@@ -47,7 +47,7 @@ public class Subscriber {
     public void setEndDate(Calendar endDate){
         this.endDate = endDate;
     }
-    public void setIsActive(boolean isActive){this.isActive = isActive;}
+    public void setactive(boolean active){this.active = active;}
 
 //    Getters
     public int getUserSubsId(){return this.userSubsId;}
@@ -55,7 +55,7 @@ public class Subscriber {
 
         return this.startDate;}
     public Calendar getEndDate(){return this.endDate;}
-    public boolean getIsActive(){return this.isActive;}
+    public boolean getactive(){return this.active;}
 
 
 //    Input data
@@ -72,29 +72,33 @@ public class Subscriber {
 //   Display information
     public void display(){
         System.out.println("ID: "+ getUserSubsId() + "\nUser: " + this.Objuser.getUserName() + "\nSubscription Name: " + this.Objsubs.getAgreementName()
-        + "\nCurrent status: " + (getIsActive() ? "Active": "Inactive") + "\nSubscription starts from: " + formatDate(getStartDate()) +"\nSubscription Ends on: " + formatDate(calculateEndDate()) + "\nSubscription remaining for days: "+this.Objuser.calculateDays(calculateEndDate()) );
+        + "\nCurrent status: " + (getactive() ? "Active": "Inactive") + "\nSubscription starts from: " + formatDate(getStartDate()) +"\nSubscription Ends on: " + formatDate(calculateEndDate()) + "\nSubscription remaining for days: "+this.Objuser.calculateDays(calculateEndDate()) );
     }
 
 //    Method to renew subscription
-    public void renew(int newSubsDur){
-        if(!getIsActive() || Objuser.getAccStatus().equals("inactive")){
+    public Subscriptions renew(int newSubsDur, Subscriptions Objsubs){
+        if(!getactive()){
             Objsubs.setAgreementDurationMonths(newSubsDur);
-            setIsActive(true);
-            calculateEndDate();
-            System.out.println("Subscription renewed for ."+ newSubsDur + " months.");
+            setactive(true);
+//            calculateEndDate(Objsubs);
+            return Objsubs;
+//            System.out.println("Subscription renewed for ."+ newSubsDur + " months.");
         }else{
-            System.out.println(Objsubs.getAgreementName() + " is already active. Can't renew right now");
+            System.out.println("Already active");
+            return Objsubs;
         }
     }
 
-    public void renew(){
-        if(!getIsActive() || Objuser.getAccStatus().equals("inactive")){
+    public String renew(){
+        if(!getactive() || Objuser.getAccStatus().equals("inactive")){
             Objsubs.setAgreementDurationMonths(3);
-            setIsActive(true);
+            setactive(true);
             calculateEndDate();
-            System.out.println("Subscription renewed for 3 months.");
+//            System.out.println("Subscription renewed for 3 months.");
+           return "Subscription renewed for 3 months.";
         }else{
-            System.out.println(Objsubs.getAgreementName() + " is already active. Can't renew right now");
+            return (Objsubs.getAgreementName() + " is already getActive. Can't renew right now");
+//            System.out.println(Objsubs.getAgreementName() + " is already getActive. Can't renew right now");
         }
     }
 //    Change user subscription
@@ -130,4 +134,15 @@ public class Subscriber {
         return newdate;
     }
 
+    public void displayUserSubscriptionInfo(Object[][] userSubscriptionInfo) {
+        for (int i = 0; i < userSubscriptionInfo.length; i++) {
+            Users user = (Users) userSubscriptionInfo[i][0];
+            Subscriptions subscription = (Subscriptions) userSubscriptionInfo[i][1];
+
+            System.out.println("UserID: "+ user.getUserId()+" User: " + user.getUserName()+ " Email: "+ user.getEmail());
+            System.out.println("Subscription Id: "+subscription.getAgreementID()+" Subscription Name: " + subscription.getAgreementName()+" Price: "+subscription.getAgreementPrice());
+            // Display other relevant information from Users and Subscriptions classes
+            System.out.println();
+        }
+    }
 }

@@ -1,6 +1,6 @@
 package Model;
 import java.util.Calendar;
-import java.util.Date;
+
 /**
  * Identification comments:
  *   Name: Sarang
@@ -19,9 +19,9 @@ import java.util.Date;
  * subsID : Stores subscription Id
  * subsName : Stores name of subscription
  * subsDesc : Stores description of subscription
- * subsPrice : Stores price of subscription
+ * agreementPrice : Stores price of subscription
  * subsDurationMonths : Duration of subscription
- * isActive : Stores active status of user
+ * getActive : Stores getActive status of user
  * validFrom : Stores start date of subscription
  */
 
@@ -31,14 +31,25 @@ public class  Subscriptions extends Agreement implements SubscriptionManager{
 //    private int subsID;
 //    private String subsName;
 //    private String subsDesc;
-//    private int subsPrice;
+//    private int agreementPrice;
 //    private int subsDurationMonths;
 //    private Calendar validFrom;
-//    private boolean isActive;
+//    private boolean getActive;
 
-//    Constructors
-    public  Subscriptions(int subsID, String subsName, int subsPrice, int subsDurationMonths, Calendar validFrom, boolean isActive, String subsDesc){
-        super(subsID, subsName, subsDesc, subsPrice, subsDurationMonths, validFrom, isActive);
+    private String valid_from;
+
+    public String getValid_from() {
+        return valid_from;
+    }
+
+    public void setValid_from(String valid_from) {
+        this.valid_from = valid_from;
+    }
+
+    //    Constructors
+    public  Subscriptions(String valid_from,int subsID, String subsName, int agreementPrice, int subsDurationMonths, Calendar validFrom, boolean active, String subsDesc){
+        super(subsID, subsName, subsDesc, agreementPrice, subsDurationMonths, validFrom, active);
+        setValid_from(valid_from);
     }
 
 
@@ -47,7 +58,7 @@ public class  Subscriptions extends Agreement implements SubscriptionManager{
         // Implement the logic to retrieve the payment method used for the subscription
         String[] paymentOptions = {"Credit Card", "PayPal", "Bank Transfer", "UPI"};
 
-        if (isActive())
+        if (getActive())
         {
             // Simulate choosing a random payment option from the list
             int randomIndex = (int) (Math.random() * paymentOptions.length);
@@ -55,12 +66,12 @@ public class  Subscriptions extends Agreement implements SubscriptionManager{
         }
         else
         {
-            return "No payment method available. Subscription is not active.";
+            return "No payment method available. Subscription is not getActive.";
         }
     }
 
     public void extendSubscription(int months){
-        if (isActive()) {
+        if (getActive()) {
             System.out.println("Extending subscription...");
 
             // Implement the logic for extending the subscription
@@ -71,7 +82,7 @@ public class  Subscriptions extends Agreement implements SubscriptionManager{
 
             System.out.println("Subscription extended by " + months + " months. New valid from: " + (newValidFrom.getTime()));
         } else {
-            System.out.println("Subscription is not active and cannot be extended.");
+            System.out.println("Subscription is not getActive and cannot be extended.");
         }
     }
 
@@ -84,7 +95,7 @@ public class  Subscriptions extends Agreement implements SubscriptionManager{
     }
 
     public void cancel_subscription(Calendar endDate) {
-        if (isActive()) {
+        if (getActive()) {
             System.out.println("Cancelling subscription...");
             Calendar currentDate = Calendar.getInstance();
             Calendar subscriptionEndDate = endDate;
@@ -92,20 +103,20 @@ public class  Subscriptions extends Agreement implements SubscriptionManager{
                 setActive(false);
                 System.out.println("Subscription has been cancelled and is now inactive.");
             } else {
-                System.out.println("Subscription cannot be cancelled as it's still active.");
+                System.out.println("Subscription cannot be cancelled as it's still getActive.");
             }
         } else {
-            System.out.println("Subscription is not active and cannot be cancelled.");
+            System.out.println("Subscription is not getActive and cannot be cancelled.");
         }
     }
 
     public void cancel_subscription() {
-        if (isActive()) {
+        if (getActive()) {
             System.out.println("Cancelling subscription...");
             setActive(false);
             System.out.println("Subscription cancelled.");
         } else {
-            System.out.println("Subscription is not active.");
+            System.out.println("Subscription is not getActive.");
         }
     }
 

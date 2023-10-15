@@ -7,17 +7,17 @@ abstract class Agreement {
     private int agreementPrice;
     private int agreementDurationMonths;
     private Calendar validFrom;
-    private boolean isActive;
+    private boolean active;
     public Agreement(int agreementID, String agreementName, String
             agreementDescription, int agreementPrice, int agreementDurationMonths,
-                     Calendar validFrom, boolean isActive) {
+                     Calendar validFrom, boolean active) {
         this.agreementID = agreementID;
         this.agreementName = agreementName;
         this.agreementDescription = agreementDescription;
         this.agreementPrice = agreementPrice;
         this.agreementDurationMonths = agreementDurationMonths;
         this.validFrom = validFrom;
-        this.isActive = isActive;
+        this.active = active;
     }
     public int getAgreementID() {
         return agreementID;
@@ -56,11 +56,11 @@ abstract class Agreement {
     public void setValidFrom(Calendar validFrom) {
         this.validFrom = validFrom;
     }
-    public boolean isActive() {
-        return isActive;
+    public boolean getActive() {
+        return active;
     }
-    public void setActive(boolean isActive) {
-        this.isActive = isActive;
+    public void setActive(boolean active) {
+        this.active = active;
     }
     public void displayAgreementInfo() {
         System.out.println("Agreement ID: " + getAgreementID());
@@ -71,7 +71,7 @@ abstract class Agreement {
         System.out.println("Duration (months): " +
                 getAgreementDurationMonths());
         System.out.println("Valid From: " + getValidFrom().getTime());
-        System.out.println("Active: " + isActive());
+        System.out.println("Active: " + getActive());
     }
     public abstract void cancel_subscription(Calendar endDate);
     public abstract boolean isPaymentOverdue(Calendar endDate);

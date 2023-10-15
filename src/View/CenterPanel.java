@@ -16,7 +16,13 @@ public class CenterPanel extends JPanel {
 
     public void createDisplay(int rows, int cols)
     {
+        header_buttons.clear();
+        student_buttons.clear();
+        this.removeAll();
+        this.revalidate();
+        this.repaint();
         this.setLayout(new GridLayout(rows+1,cols));
+
         for (int i = 1; i <= cols; i++)
         {
             JButton b = new JButton();

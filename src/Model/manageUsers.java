@@ -57,16 +57,26 @@ public class manageUsers extends FilehandlingUsers implements Displayable{
 
                     int id = node.get("userId").asInt();
                     String name = node.get("userName").asText();
-                    long mobile_no = node.get("mobile_no").asLong();
+                    long mobile_no = node.get("mobileNo").asLong();
                     String email = node.get("email").asText();
-                    Date dob = sdf.parse(node.get("dob").asText());
-                    String password = node.get("password").asText();
-                    Date regDate = sdf.parse(node.get("regDate").asText());
-                    String accStatus = node.get("accStatus").asText();
-                    String profilePic = node.get("ProfilePic").asText();
+//                    Date dob = sdf.parse(node.get("dob").asText());
+                    Calendar dob = Calendar.getInstance();
+                    dob.setTimeInMillis(node.get("dob").asLong());
 
-                    userdob.setTime(dob);
-                    userRegDate.setTime(regDate);
+                    String dob_string = node.get("dob_string").asText();
+//                    System.out.println(node.get("dob").asText());
+                    String password = node.get("password").asText();
+
+//                    Date regDate = sdf.parse(node.get("regDate").asText());
+                    Calendar reg = Calendar.getInstance();
+                    reg.setTimeInMillis(node.get("regDate").asLong());
+                    String regDate_string = node.get("regDate_string").asText();
+
+                    String accStatus = node.get("accStatus").asText();
+                    String profilePic = node.get("profilePic").asText();
+
+//                    userdob.setTime(dob);
+//                    userRegDate.setTime(regDate);
 //                  Get the date and time as a String in the desired format
                     String dobString = sdf.format(userdob.getTime());
                     String regDateString = sdf.format(userRegDate.getTime());
@@ -76,11 +86,11 @@ public class manageUsers extends FilehandlingUsers implements Displayable{
                     // Create new Calendar instances for dob and regDate
                     Calendar userdob = Calendar.getInstance();
                     Calendar userRegDate = Calendar.getInstance();
-                    userdob.setTime(dob);
-                    userRegDate.setTime(regDate);
+//                    userdob.setTime(dob);
+//                    userRegDate.setTime(regDate);
 
 
-                    Users usr = new Users(id, name, userdob, mobile_no, email, password, userRegDate, accStatus, profilePic);
+                    Users usr = new Users(regDateString,dob_string,id, name, dob, mobile_no, email, password, reg, accStatus, profilePic);
                     users.add(usr);
                 }
             }
@@ -89,6 +99,13 @@ public class manageUsers extends FilehandlingUsers implements Displayable{
         }
 
         return users;
+    }
+
+
+    public void delete(int id) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        users.remove(id);
+        mapper.writeValue(Paths.get("src/Model/users.json").toFile(), users);
     }
 
 
@@ -128,9 +145,9 @@ public class manageUsers extends FilehandlingUsers implements Displayable{
         user_details.add(String.valueOf(users.get(line).getUserId()));
         user_details.add(users.get(line).getUserName());
         user_details.add(users.get(line).getEmail());
-        user_details.add(users_Date.get(line));
+        user_details.add(users.get(line).getDob_string());
         user_details.add(String.valueOf(users.get(line).getMobileNo()));
-        user_details.add(users_RegDate.get(line));
+        user_details.add(users.get(line).getRegDate_string());
         user_details.add(users.get(line).getAccStatus());
         user_details.add(users.get(line).getPassword());
         user_details.add(users.get(line).getProfilePic());
